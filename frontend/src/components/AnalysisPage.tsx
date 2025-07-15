@@ -8,6 +8,8 @@ import ResumeContentCheck from "@/components/ResumeContentCheck";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import OverallScoreChart from "./OverallScoreChart";
+import RecommendedSkillsSection from "./RecommendedSkillsSection";
+import RecommendedCoursesSection from "./RecommendedCoursesSection";
 
 const AnalysisPage: React.FC = () => {
   const [resumeData, setResumeData] = useState<any>(null);
@@ -25,7 +27,7 @@ const AnalysisPage: React.FC = () => {
       label: "Skills yang Terdeteksi",
     },
     {
-      id: "job-suggestions",
+      id: "field-suggestion",
       label: "Bidang Pekerjaan Disarankan",
     },
     {
@@ -33,21 +35,16 @@ const AnalysisPage: React.FC = () => {
       label: "Check Konten Resume",
       children: [
         { id: "education-section", label: "Educations" },
-        { id: "skills-section", label: "Skills" },
+        { id: "projects-section", label: "Projects" },
+        { id: "experiences-section", label: "Experiences" },
       ],
     },
     {
-      id: "content-score",
-      label: "Score Konten Resume",
-    },
-    {
-      id: "experience-score",
-      label: "Score Pengalaman",
+      id: "resume-score",
+      label: "Score Resume",
       children: [
-        { id: "fresh-graduate", label: "Fresh Graduate" },
-        { id: "junior", label: "Junior" },
-        { id: "experienced", label: "Experienced" },
-        { id: "senior", label: "Senior" },
+        { id: "content-score", label: "Score Konten Resume" },
+        { id: "experience-score", label: "Score Pengalaman" },
       ],
     },
     {
@@ -69,7 +66,7 @@ const AnalysisPage: React.FC = () => {
   ];
 
   useEffect(() => {
-    const storedData = localStorage.getItem("resumeData");
+    const storedData = sessionStorage.getItem("resumeResult");
     if (storedData) {
       setResumeData(JSON.parse(storedData));
     }
@@ -111,6 +108,7 @@ const AnalysisPage: React.FC = () => {
 
   useEffect(() => {
     return () => {
+      sessionStorage.removeItem("resumeResult");
       sessionStorage.removeItem("resumeDataUrl");
     };
   }, []);
@@ -128,7 +126,7 @@ const AnalysisPage: React.FC = () => {
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white">
       {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-slate-800 p-6 shadow-md border-r">
+      <aside className="w-64 bg-white dark:bg-slate-800 shadow-md border-r sticky top-0 h-screen overflow-y-auto p-6">
         {/* Sidebar Score Keseluruhan */}
         <div className="mb-6">
           <h2 className="text-lg font-bold mb-2">Score Keseluruhan</h2>
@@ -146,7 +144,7 @@ const AnalysisPage: React.FC = () => {
                       .getElementById(sec.id)
                       ?.scrollIntoView({ behavior: "smooth" })
                   }
-                  className={`w-full text-left transition hover:underline ${
+                  className={`w-full text-left transition hover:underline cursor-pointer ${
                     activeSection === sec.id
                       ? "text-blue-600 font-semibold"
                       : ""
@@ -165,7 +163,7 @@ const AnalysisPage: React.FC = () => {
                               .getElementById(child.id)
                               ?.scrollIntoView({ behavior: "smooth" })
                           }
-                          className={`hover:underline ${
+                          className={`hover:underline cursor-pointer ${
                             activeSection === child.id
                               ? "text-blue-600 font-semibold"
                               : ""
@@ -195,22 +193,40 @@ const AnalysisPage: React.FC = () => {
             pages={resumeData.no_of_pages}
           />
         </section>
-        <DetectedSkillsSection skills={resumeData.skills || []} />
-        <RecommendedFieldSection
-          field={resumeData.recommended_field}
-          matchPercent={Math.round(resumeData.field_match_percent)}
-          matchedSkills={resumeData.matched_field_skills}
-        />
-        <ResumeContentCheck
-          education={resumeData.education || []}
-          projects={resumeData.projects || []}
-          experience={resumeData.experience_items || []}
-        />
-
-        <ResumeScoring
-          contentScore={contentScore}
-          experienceScore={experienceScore}
-        />
+        <section id="detected-skills" className="mb-12">
+          <DetectedSkillsSection skills={resumeData.skills || []} />
+        </section>
+        <section id="field-suggestion" className="mb-12">
+          <RecommendedFieldSection
+            field={resumeData.recommended_field}
+            matchPercent={Math.round(resumeData.field_match_percent)}
+            matchedSkills={resumeData.matched_field_skills}
+          />
+        </section>
+        <section id="resume-contents" className="mb-12">
+          <ResumeContentCheck
+            education={resumeData.education || []}
+            projects={resumeData.projects || []}
+            experience={resumeData.experience_items || []}
+          />
+        </section>
+        <section id="resume-score" className="mb-12">
+          <h2 className="text-2xl font-bold mb-4">Score Resume</h2>
+          <ResumeScoring
+            contentScore={contentScore}
+            experienceScore={experienceScore}
+          />
+        </section>
+        <section id="recommended-skills" className="mb-12">
+          <RecommendedSkillsSection
+            skills={resumeData.recommended_skills || []}
+          />
+        </section>
+        <section id="recommended-courses" className="mb-12">
+          <RecommendedCoursesSection
+            courses={resumeData.recommended_courses || []}
+          />
+        </section>
       </main>
 
       {/* Preview Resume */}

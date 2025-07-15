@@ -20,7 +20,7 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
   pages,
 }) => {
   return (
-    <div className="mb-8">
+    <div id="personal-info" className="mb-8">
       <h2 className="text-2xl font-bold mb-4">Data Personal Kandidat</h2>
       <ul className="space-y-2 text-sm">
         {name && (

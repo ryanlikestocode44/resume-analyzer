@@ -50,7 +50,12 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadSuccess }) => {
         }
       );
 
+      // Simpan hasil analisis
+      sessionStorage.setItem("resumeResult", JSON.stringify(response.data));
+      // Jika perlu: simpan juga nama file
+      sessionStorage.setItem("resumeFilename", file.name);
       onUploadSuccess(response.data, file);
+
       const reader = new FileReader();
       reader.onload = () => {
         const result = reader.result;

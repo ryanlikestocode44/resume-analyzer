@@ -13,9 +13,8 @@ const ResumeContentCheck: React.FC<Props> = ({
   experience,
 }) => {
   return (
-    <section id="resume-content-check" className="mb-8">
-      <h2 className="text-xl font-semibold mb-4">Check Konten Resume</h2>
-
+    <section id="resume-contents" className="mb-8">
+      <h2 className="text-2xl font-bold mb-4">Check Konten Resume</h2>
       <div className="mb-4">
         <h3 className="font-semibold">Pendidikan</h3>
         {education.length > 0 ? (

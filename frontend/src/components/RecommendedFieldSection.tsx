@@ -13,10 +13,8 @@ const RecommendedFieldSection: React.FC<Props> = ({
   matchedSkills,
 }) => {
   return (
-    <section id="recommended-field" className="mb-8">
-      <h2 className="text-xl font-semibold mb-2">
-        Bidang Pekerjaan yang Disarankan
-      </h2>
+    <section id="field-suggestion" className="mb-8">
+      <h2 className="text-2xl font-bold mb-4">Bidang Pekerjaan Disarankan</h2>
       <p className="mb-2">
         <strong>{field}</strong> cocok untuk Anda dengan tingkat kecocokan{" "}
         <strong>{matchPercent}%</strong> berdasarkan skill berikut:
