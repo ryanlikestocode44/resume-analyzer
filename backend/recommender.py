@@ -1,9 +1,11 @@
 # recommender.py
-from courses import (
+from skills import (
     ds_skills, web_skills, android_skills, ios_skills, uiux_skills,
+    cloud_skills )
+from courses import (
     ds_course, web_course, android_course, ios_course, uiux_course,
-    resume_videos, interview_videos
 )
+from videos import (resume_videos, interview_videos)
 import random
 
 def recommend_field(skills):

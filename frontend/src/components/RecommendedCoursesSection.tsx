@@ -1,8 +1,13 @@
 import React from "react";
-import { BookOpenIcon } from "lucide-react";
+import { BookOpenIcon, ExternalLinkIcon } from "lucide-react";
+
+interface Course {
+  title: string;
+  url: string;
+}
 
 interface RecommendedCoursesSectionProps {
-  courses: string[];
+  courses: Course[];
 }
 
 const RecommendedCoursesSection: React.FC<RecommendedCoursesSectionProps> = ({
@@ -23,7 +28,15 @@ const RecommendedCoursesSection: React.FC<RecommendedCoursesSectionProps> = ({
         {courses.map((course, idx) => (
           <li key={idx} className="flex items-start gap-3">
             <BookOpenIcon className="w-5 h-5 text-blue-500 mt-1" />
-            <span className="text-slate-700 dark:text-slate-200">{course}</span>
+            <a
+              href={course.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline flex items-center gap-1"
+            >
+              {course.title}
+              <ExternalLinkIcon className="w-4 h-4 inline" />
+            </a>
           </li>
         ))}
       </ul>

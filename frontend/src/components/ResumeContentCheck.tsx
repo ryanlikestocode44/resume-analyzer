@@ -13,9 +13,9 @@ const ResumeContentCheck: React.FC<Props> = ({
   experience,
 }) => {
   return (
-    <section id="resume-contents" className="mb-8">
+    <section id="content-check" className="mb-8">
       <h2 className="text-2xl font-bold mb-4">Check Konten Resume</h2>
-      <div className="mb-4">
+      <div id="education-section" className="mb-4">
         <h3 className="font-semibold">Pendidikan</h3>
         {education.length > 0 ? (
           <ul className="list-disc ml-6 text-sm">
@@ -28,7 +28,7 @@ const ResumeContentCheck: React.FC<Props> = ({
         )}
       </div>
 
-      <div className="mb-4">
+      <div id="projects-section" className="mb-4">
         <h3 className="font-semibold">Project</h3>
         {projects.length > 0 ? (
           <ul className="list-disc ml-6 text-sm">
@@ -41,7 +41,7 @@ const ResumeContentCheck: React.FC<Props> = ({
         )}
       </div>
 
-      <div>
+      <div id="experiences-section">
         <h3 className="font-semibold">Pengalaman Kerja</h3>
         {experience.length > 0 ? (
           <ul className="list-disc ml-6 text-sm">

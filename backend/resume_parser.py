@@ -14,7 +14,7 @@ import kagglehub
 from kagglehub import KaggleDatasetAdapter
 from collections import Counter
 
-from courses import resume_videos, interview_videos
+from videos import resume_videos, interview_videos
 from recommender import recommend_courses, recommend_field
 
 # Load IndoBERT at once

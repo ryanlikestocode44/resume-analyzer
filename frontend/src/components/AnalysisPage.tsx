@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import OverallScoreChart from "./OverallScoreChart";
 import RecommendedSkillsSection from "./RecommendedSkillsSection";
 import RecommendedCoursesSection from "./RecommendedCoursesSection";
+import VideoSection from "./VideoSection";
 
 const AnalysisPage: React.FC = () => {
   const [resumeData, setResumeData] = useState<any>(null);
@@ -31,7 +32,7 @@ const AnalysisPage: React.FC = () => {
       label: "Bidang Pekerjaan Disarankan",
     },
     {
-      id: "resume-contents",
+      id: "content-check",
       label: "Check Konten Resume",
       children: [
         { id: "education-section", label: "Educations" },
@@ -121,8 +122,6 @@ const AnalysisPage: React.FC = () => {
     (contentScore + (experienceScore / 30) * 100) / 2
   );
 
-  console.log(resumeData.field_match_percent);
-
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white">
       {/* Sidebar */}
@@ -182,7 +181,7 @@ const AnalysisPage: React.FC = () => {
       </aside>
 
       {/* Konten Tengah */}
-      <main className="flex-1 p-8 overflow-auto lg:pr-[33.33%]">
+      <main className="flex-1 px-3 py-8 overflow-auto lg:mr-[33.33%]">
         <section id="personal-info" className="mb-12">
           <PersonalInfoSection
             name={resumeData.name}
@@ -211,7 +210,6 @@ const AnalysisPage: React.FC = () => {
           />
         </section>
         <section id="resume-score" className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Score Resume</h2>
           <ResumeScoring
             contentScore={contentScore}
             experienceScore={experienceScore}
@@ -225,6 +223,12 @@ const AnalysisPage: React.FC = () => {
         <section id="recommended-courses" className="mb-12">
           <RecommendedCoursesSection
             courses={resumeData.recommended_courses || []}
+          />
+        </section>
+        <section id="resume-tutorial" className="mb-12">
+          <VideoSection
+            resumeVideo={resumeData.resume_video_url}
+            interviewVideo={resumeData.interview_video_url}
           />
         </section>
       </main>

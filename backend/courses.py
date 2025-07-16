@@ -1,11 +1,3 @@
-ds_skills = {"python", "machine learning", "data analysis", "tensorflow", "pandas", "flask", "streamlit", "deep learning", "data visualization", "sql", "numpy", "scikit-learn", "keras", "pytorch", "data science", "statistics", "big data", "hadoop", "spark", "data mining", "data wrangling", "data preprocessing", "feature engineering", "model evaluation", "natural language processing", "nlp", "computer vision", "cv", "time series analysis", "reinforcement learning"}
-web_skills = {"html", "css", "javascript", "react", "node.js", "django", "flask", "angular.js", "vue.js", "wordpress", "c#", "php", "laravel", "bootstrap", "jquery", "sql", "nosql", "mongodb", "rest api", "graphql", "web development", "full stack", "responsive design", "web performance", "web security"}
-android_skills = {"android", "kotlin", "java", "android studio", "flutter", "react native", "xml", "gradle", "material design", "firebase", "sqlite", "rest api", "mvvm", "mvp", "jetpack compose", "coroutines", "dagger hilt"}
-ios_skills = {"swift", "ios", "xcode", "objective-c", "swiftui", "cocoa touch", "core data", "core animation", "xamarin", "flutter", "react native", "app store", "testflight", "push notifications", "in-app purchases", "apple pay", "swift package manager"}
-uiux_skills = {"figma", "ui design", "ux research", "adobe xd", "sketch", "invision", "user interface", "user experience", "wireframing", "prototyping", "usability testing", "interaction design", "visual design", "user flows", "information architecture"}
-cloud_skills = {"aws", "azure", "google cloud", "cloud computing", "cloud security", "docker", "kubernetes", "terraform", "ci/cd", "serverless", "microservices", "cloud architecture", "cloud migration", "cloud storage", "cloud networking"}
-# Predefined skills for each field
-
 # Course lists for different fields
 ds_course = [{"title": 'Machine Learning Crash Course by Google [Free]', "url": 'https://developers.google.com/machine-learning/crash-course'},
              {"title": 'Machine Learning A-Z by Udemy', "url": 'https://www.udemy.com/course/machinelearning/'},
@@ -61,13 +53,3 @@ uiux_course = [{"title": 'Google UX Design Professional Certificate', "url": 'ht
                {"title": 'Adobe XD Tutorial: User Experience Design Course [Free]', "url": 'https://youtu.be/68w2VwalD5w'},
                {"title": 'Adobe XD for Beginners [Free]', "url": 'https://youtu.be/WEljsc2jorI'},
                {"title": 'Adobe XD in Simple Way', "url": 'https://learnux.io/course/adobe-xd'}]
-
-resume_videos = ['https://youtu.be/3agP4x8LYFM','https://youtu.be/fS_t3yS8v5s',
-                 'https://youtu.be/aArb68OBFPg','https://youtu.be/h-NuvOeWWh0',
-                 'https://youtu.be/BdQniERyw8I','https://youtu.be/Tt08KmFfIYQ',
-                 'https://youtu.be/CLUsplI4xMU','https://youtu.be/bhwEsfXS6y8']
-
-interview_videos = ['https://youtu.be/Tt08KmFfIYQ','https://youtube/KukmClH1KoA',
-                    'https://youtu.be/7_aAicmPB3A','https://youtube/1mHjMNZZvFo',
-                    'https://youtu.be/WfdtKbAJOmE','https://youtube/wFbU185CvDU'
-                    'https://youtu.be/wFbU185CvDU','https://youtube/TZ3C_syg9Ow']

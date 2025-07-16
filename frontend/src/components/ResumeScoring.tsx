@@ -3,6 +3,10 @@ import React from "react";
 const ResumeScoring = ({ contentScore = 0, experienceScore = 0 }) => {
   return (
     <div className="my-6">
+      <h2 id="resume-score" className="text-2xl font-bold mb-4">
+        Score Resume
+      </h2>
+
       <div id="content-score" className="mb-6">
         <h4 className="text-lg font-medium text-green-700">
           Score Konten Resume
