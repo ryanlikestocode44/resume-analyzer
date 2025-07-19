@@ -1,48 +1,50 @@
-# resume_parser.py
-
 import os
 import re
 import pdfplumber
 import pandas as pd
 from datetime import datetime
 from dateutil import parser as date_parser
-from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
-import phonenumbers
-from phonenumbers import geocoder
-import joblib
-import kagglehub
-from kagglehub import KaggleDatasetAdapter
 from collections import Counter
+from nltk import sent_tokenize
+from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline, logging
+from tqdm import tqdm
+import joblib
+from recommender import recommend_courses, recommend_field, recommend_videos, recommend_skills
 
-from videos import resume_videos, interview_videos
-from recommender import recommend_courses, recommend_field
-
-# Load IndoBERT at once
-# Load IndoBERT model once
-print("Loading IndoBERT NER model...")
-NER_TOKENIZER = AutoTokenizer.from_pretrained("cahya/bert-base-indonesian-NER")
-NER_MODEL = AutoModelForTokenClassification.from_pretrained("cahya/bert-base-indonesian-NER")
-NER_PIPE = pipeline("ner", model=NER_MODEL, tokenizer=NER_TOKENIZER, aggregation_strategy="simple")
-
+print("⏳ Loading IndoBERT NER model and skill cache...")
 CACHE_DIR = "cached"
-CACHE_FILE = os.path.join(CACHE_DIR, "cached_skills.pkl")
-
-# Ensure cache directory exists
 os.makedirs(CACHE_DIR, exist_ok=True)
 
-# Load or create skill cache
+# Auto-load IndoBERT
+logging.set_verbosity_error()  # suppress loading logs
+
+print("⏳ Loading IndoBERT NER model...")
+NER_MODEL_ID = "cahya/bert-base-indonesian-NER"
+NER_TOKENIZER = AutoTokenizer.from_pretrained(NER_MODEL_ID)
+NER_MODEL = AutoModelForTokenClassification.from_pretrained(NER_MODEL_ID)
+NER_PIPE = pipeline("ner", model=NER_MODEL, tokenizer=NER_TOKENIZER, aggregation_strategy="simple")
+
+# Auto-generate skill cache from job_skills.csv
+CACHE_FILE = os.path.join(CACHE_DIR, "cached_skills.pkl")
 if os.path.exists(CACHE_FILE):
     SKILL_SET = joblib.load(CACHE_FILE)
+    print(f"✅ Loaded skill cache from {CACHE_FILE} ({len(SKILL_SET)} skills)")
 else:
-    df = pd.read_csv("datasets/job_skills.csv")
+    print("⚙️ Generating skill cache from datasets/job_skills.csv...")
+    job_skills_csv = "datasets/job_skills.csv"
+    if not os.path.exists(job_skills_csv):
+        raise FileNotFoundError(f"Missing required dataset: {job_skills_csv}")
+    
+    df = pd.read_csv(job_skills_csv)
     skill_set = set()
-    for skill_list in df["job_skills"].dropna():
+    for skill_list in tqdm(df["job_skills"].dropna(), desc="Processing job_skills.csv"):
         for skill in skill_list.split(","):
             clean_skill = skill.strip().title()
-            if len(clean_skill) > 1:
+            if 2 < len(clean_skill) <= 50:
                 skill_set.add(clean_skill)
-    SKILL_SET = list(skill_set)
+    SKILL_SET = sorted(skill_set)
     joblib.dump(SKILL_SET, CACHE_FILE)
+    print(f"✅ Cached {len(SKILL_SET)} unique skills to {CACHE_FILE}")
 
 # Skills Section Keywords
 SECTION_KEYWORDS = [
@@ -69,14 +71,45 @@ def extract_skills_from_text(text):
     ]
     return sorted(set(cleaned_skills))
 
-
 class ResumeParser:
+    def segment_sections(self):
+        """
+        Pisahkan teks berdasarkan heading resume seperti Experience, Education, Skills, Projects, dll.
+        """
+        section_patterns = {
+            "experience": r"(?i)(work experience|pengalaman kerja|pengalaman|riwayat pekerjaan|freelance|internship|magang|career history|experiences|riwayat karir)",
+            "education": r"(?i)(education|pendidikan|academic background|riwayat pendidikan|educational background|academic history|academic qualifications|educations|qualifications|kualifikasi|academic credentials|academic achievements)",
+            "skills": r"(?i)(skills|keterampilan|keahlian|kemampuan|proficiencies|technical skills|soft skills|hard skills|expertise|skill set|capabilities|kualifikasi)",
+            "projects": r"(?i)(projects|portfolio|projek|proyek|project experience|project history|project portfolio|project work|project details|capstones|project work|project contributions|project showcases|project highlights|project accomplishments|project achievements|project summaries|project descriptions|project overviews|project outlines|project briefs|project reports|project documentation)",
+            "certifications": r"(?i)(certifications|sertifikat|licenses| lisensi|certificates|professional certifications|professional licenses|professional certificates|professional qualifications|professional accreditations|professional credentials)",
+        }
+
+        lines = self.text.split('\n')
+        sections = {}
+        current_section = "general"
+        sections[current_section] = []
+
+        for line in lines:
+            line_clean = line.strip()
+            matched_section = None
+            for key, pattern in section_patterns.items():
+                if re.match(pattern, line_clean):
+                    matched_section = key
+                    break
+
+            if matched_section:
+                current_section = matched_section
+                sections[current_section] = []
+            sections[current_section].append(line_clean)
+
+        return {sec: '\n'.join(lines) for sec, lines in sections.items()}
+    
     def __init__(self, file_bytes):
         self.file_bytes = file_bytes
         self.text = self.extract_text()
         self.cleaned_text = self.clean_text(self.text)
         self.ner_results = self.ner_with_indobert()
-
+        self.sections = self.segment_sections()
         self.predefined_skills = self.load_skill_dataset()
         self.details = self.build_details()
 
@@ -95,13 +128,32 @@ class ResumeParser:
     def load_skill_dataset(self):
         return SKILL_SET
 
-    def extract_name(self):
-        name_tokens = [ent["word"].replace("##", "") for ent in self.ner_results if ent["entity_group"].upper() == "PER"]
-        name_counts = Counter(name_tokens)
-        if not name_counts:
-            return None
-        most_common_name = " ".join([w.title() for w, _ in name_counts.most_common(3)])
-        return most_common_name.strip()
+    def extract_name_from_ner(self):
+        ner_results = self.ner_results
+        names = [ent['word'] for ent in ner_results if ent['entity_group'] == 'PERSON']
+        
+        clean_names = []
+        for name in names:
+            name = name.strip().replace('_', ' ')
+            if not re.search(r'\d|\@|\.com', name, re.IGNORECASE):
+                clean_names.append(name)
+
+        seen = set()
+        final_name = []
+        for word in clean_names:
+            word = word.strip()
+            if word.lower() not in seen:
+                final_name.append(word)
+                seen.add(word.lower())
+
+        if final_name:
+            return " ".join(final_name).strip()
+        
+        # fallback ke baris pertama resume
+        first_line = self.text.strip().split('\n')[0]
+        if len(first_line.split()) <= 5:
+            return first_line.strip()
+        return ""
 
     def extract_email(self):
         match = re.search(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", self.cleaned_text)
@@ -125,19 +177,25 @@ class ResumeParser:
         return extract_skills_from_text(self.cleaned_text)
     
     def extract_education(self):
+        edu_text = self.sections.get("education", "")
         pattern = r'(SMA|SMK|Sarjana|S1|S2|S3|Bachelor|Master|Doctor|Universitas|Institut)[^\n]{0,80}'
-        matches = re.findall(pattern, self.text, re.IGNORECASE)
+        matches = re.findall(pattern, edu_text, re.IGNORECASE)
         return list(set(matches))
 
     def extract_projects(self):
-        pattern = r'(?i)(projects|portfolio)[\s:]*\n?(.*?)(\n\n|\Z)'
-        matches = re.findall(pattern, self.text, re.DOTALL)
-        return [line.strip("-• ") for _, content, _ in matches for line in content.split("\n") if line.strip()]
+        project_text = self.sections.get("projects", "")
+        lines = project_text.split("\n")
+        return [line.strip("-• ") for line in lines if len(line.strip()) > 5]
 
     def extract_experience(self):
-        pattern = r'(?i)(experience|pengalaman)[\s:]*\n?(.*?)(\n\n|\Z)'
-        matches = re.findall(pattern, self.text, re.DOTALL)
-        return [line.strip("-• ") for _, content, _ in matches for line in content.split("\n") if line.strip()]
+        exp_text = self.sections.get("experience", "")
+        lines = exp_text.split('\n')
+        experience_list = []
+        for line in lines:
+            line = line.strip("-•\u2022 \t")
+            if len(line) > 5:
+                experience_list.append(line)
+        return list(set(experience_list))
 
     def get_total_experience_from_text(self):
         date_ranges = re.findall(
@@ -155,9 +213,23 @@ class ResumeParser:
         return round(total_months / 12, 2)
 
     def score_experience_with_ner(self):
-        score, orgs, dates, locations, numerics = 0, set(), set(), set(), 0
-        verbs = ["develop", "manage", "lead", "create", "optimize", "analyze", "design", "build", "run"]
+        score = 0
+        orgs, dates, locations = set(), set(), set()
+        numerics = 0
 
+        # Gabungkan word bertokenisasi bertipe subword
+        full_text = ""
+        previous = ""
+        for ent in self.ner_results:
+            word = ent["word"]
+            if word.startswith("##"):
+                previous += word[2:]
+            else:
+                full_text += " " + previous
+                previous = word
+        full_text += " " + previous
+
+        # Re-evaluate entities using cleaned text
         for ent in self.ner_results:
             label = ent["entity_group"].upper()
             word = ent["word"].lower()
@@ -171,30 +243,47 @@ class ResumeParser:
             elif label in ["MONEY", "PERCENT", "CARDINAL"]:
                 numerics += 1
 
-        verbs_found = sum(1 for v in verbs if v in self.text.lower())
+        # Lebih banyak action verbs + variasinya
+        verbs = [
+            "develop", "manage", "lead", "create", "optimize", "analyze", "design", "build",
+            "coordinate", "supervise", "plan", "initiate", "execute", "implement", "improve"
+        ]
+        verb_count = sum(full_text.lower().count(v) for v in verbs)
 
+        # Tambahkan nilai jika ada lebih dari 2 kalimat di bagian pengalaman
+        try:
+            exp_sents = sent_tokenize(self.text, language='english')
+        except Exception as e:
+            print(f"Sent Tokenizer failed: {e}")
+            exp_sents = [self.text]  # fallback: treat whole text as one sentence
+            
+        sentence_bonus = min(len(exp_sents) // 3, 3) * 1.0  # up to +3
+
+        # Skoring final
         score += min(len(orgs), 3) * 3
         score += min(len(dates), 3) * 2
         score += min(len(locations), 2) * 2
         score += min(numerics, 2) * 2
-        score += min(verbs_found, 4) * 1.5
+        score += min(verb_count, 5) * 1.5
+        score += sentence_bonus
 
         return round(min(score, 30), 1)
+
 
     def build_details(self):
         linkedin, github = self.extract_links()
         raw_skills = self.extract_skills()
         matched_skills = [s for s in raw_skills if s in self.predefined_skills]
-        recommended_skills = list(set(self.predefined_skills) - set(matched_skills))[:5]
-
+        recommended_skills = recommend_skills(matched_skills, self.predefined_skills)
         field_info = recommend_field(matched_skills)
         recommended_courses = recommend_courses(field_info["field"])
+        videos = recommend_videos()
         
-        print("=== Field Info ===")
-        print(field_info)
+        # print("=== Field Info ===")
+        # print(field_info)
 
         return {
-            "name": self.extract_name(),
+            "name": self.extract_name_from_ner(),
             "email": self.extract_email(),
             "phone": self.extract_phone(),
             "linkedin": linkedin,
@@ -208,8 +297,8 @@ class ResumeParser:
             "matched_field_skills": field_info["matched_skills"],
             "field_match_percent": field_info["match_percent"],
             "recommended_courses": recommended_courses,
-            "resume_video_url": resume_videos[0],
-            "interview_video_url": interview_videos[0],
+            "resume_video_url": videos["resume_video_url"],
+            "interview_video_url": videos["interview_video_url"],
             "resume_score": round(60 + 0.5 * len(matched_skills)),
             "experience_score": self.score_experience_with_ner(),
             "total_experience_years": self.get_total_experience_from_text(),

@@ -1,18 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import tempfile
-import random
 import traceback
 
 from resume_parser import ResumeParser
-from recommender import recommend_field, recommend_courses, recommend_videos
 from error_handlers import register_error_handlers
 
 app = Flask(__name__)
 CORS(app)
 register_error_handlers(app)
 
-@app.route("/upload", methods=["POST"])
+@app.route("/upload", methods=["GET", "POST"])
 def upload_resume():
     if 'resume' not in request.files:
         return jsonify({"error": "No file uploaded"}), 400

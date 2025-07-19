@@ -22,7 +22,7 @@ const VideoSection: React.FC<VideoSectionProps> = ({
   if (!resumeVideo && !interviewVideo) return null;
 
   return (
-    <section id="resume-tutorial" className="mb-12 space-y-8">
+    <section className="mb-12 space-y-8">
       <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
         Video Panduan Karier
       </h2>
@@ -33,7 +33,10 @@ const VideoSection: React.FC<VideoSectionProps> = ({
 
       <div className="space-y-6">
         {resumeVideo && (
-          <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md">
+          <div
+            id="resume-tutorial"
+            className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md"
+          >
             <div className="flex items-center gap-2 mb-2">
               <LightbulbIcon className="w-5 h-5 text-yellow-500" />
               <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
@@ -53,7 +56,10 @@ const VideoSection: React.FC<VideoSectionProps> = ({
         )}
 
         {interviewVideo && (
-          <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md">
+          <div
+            id="interview-tutorial"
+            className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md"
+          >
             <div className="flex items-center gap-2 mb-2">
               <MicIcon className="w-5 h-5 text-purple-600" />
               <h3 className="text-lg font-semibold text-slate-800 dark:text-white">

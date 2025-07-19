@@ -5,6 +5,7 @@ import ResumePreview from "@/components/ResumePreview";
 import ResumeScoring from "@/components/ResumeScoring";
 import SkillRecommendation from "@/components/SkillRecommendation";
 import VideoSection from "@/components/VideoSection";
+import AnalysisFooter from "@/components/AnalysisFooter";
 
 interface ResumeData {
   resume_score?: number;
@@ -12,7 +13,7 @@ interface ResumeData {
   skills?: string[];
   recommended_skills?: string[];
   recommended_field?: string;
-  recommended_courses?: { title: string; url: string} [];
+  recommended_courses?: { title: string; url: string }[];
   resume_video_url?: string;
   interview_video_url?: string;
 }
@@ -38,6 +39,8 @@ const Home: React.FC = () => {
       <section>
         <ResumeUploader onUploadSuccess={handleUploadSuccess} />
       </section>
+
+      <AnalysisFooter />
 
       {resumeFile && (
         <section>

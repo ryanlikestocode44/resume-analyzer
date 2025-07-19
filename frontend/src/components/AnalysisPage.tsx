@@ -11,6 +11,7 @@ import OverallScoreChart from "./OverallScoreChart";
 import RecommendedSkillsSection from "./RecommendedSkillsSection";
 import RecommendedCoursesSection from "./RecommendedCoursesSection";
 import VideoSection from "./VideoSection";
+import AnalysisFooter from "./AnalysisFooter";
 
 const AnalysisPage: React.FC = () => {
   const [resumeData, setResumeData] = useState<any>(null);
@@ -225,12 +226,13 @@ const AnalysisPage: React.FC = () => {
             courses={resumeData.recommended_courses || []}
           />
         </section>
-        <section id="resume-tutorial" className="mb-12">
+        <section className="mb-12">
           <VideoSection
             resumeVideo={resumeData.resume_video_url}
             interviewVideo={resumeData.interview_video_url}
           />
         </section>
+        <AnalysisFooter />
       </main>
 
       {/* Preview Resume */}
