@@ -21,8 +21,9 @@ const RecommendedCoursesSection: React.FC<RecommendedCoursesSectionProps> = ({
         Kursus yang Disarankan
       </h2>
       <p className="mb-4 text-slate-600 dark:text-slate-300">
-        Berikut ini adalah daftar kursus online yang direkomendasikan untuk
-        meningkatkan skill Anda pada bidang yang sesuai dengan resume Anda.
+        Berikut ini adalah daftar kursus online yang direkomendasikan yang dapat
+        dijadikan pertimbangan untuk meningkatkan skill Anda pada bidang yang
+        sesuai dengan resume Anda.
       </p>
       <ul className="space-y-3">
         {courses.map((course, idx) => (

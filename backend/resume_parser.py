@@ -269,12 +269,11 @@ class ResumeParser:
 
         return round(min(score, 30), 1)
 
-
     def build_details(self):
         linkedin, github = self.extract_links()
         raw_skills = self.extract_skills()
         matched_skills = [s for s in raw_skills if s in self.predefined_skills]
-        recommended_skills = recommend_skills(matched_skills, self.predefined_skills)
+        recommended_skills = recommend_skills(matched_skills)
         field_info = recommend_field(matched_skills)
         recommended_courses = recommend_courses(field_info["field"])
         videos = recommend_videos()

@@ -43,7 +43,7 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
           <li>
             <strong>LinkedIn:</strong>{" "}
             <a
-              href={linkedin}
+              href={`https://${linkedin}`}
               className="text-blue-600 underline"
               target="_blank"
               rel="noopener noreferrer"
@@ -56,7 +56,7 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
           <li>
             <strong>GitHub:</strong>{" "}
             <a
-              href={github}
+              href={`https://${github}`}
               className="text-blue-600 underline"
               target="_blank"
               rel="noopener noreferrer"
