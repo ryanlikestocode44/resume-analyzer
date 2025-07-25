@@ -7,6 +7,8 @@ import SkillRecommendation from "@/components/SkillRecommendation";
 import VideoSection from "@/components/VideoSection";
 import AnalysisFooter from "@/components/AnalysisFooter";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { useLanguage } from "@/hooks/useLanguage";
+import LanguageToggle from "@/components/LanguageToggle";
 
 interface ResumeData {
   resume_score?: number;
@@ -28,15 +30,16 @@ const Home: React.FC = () => {
     setResumeFile(file);
   };
 
+  const { t } = useLanguage();
+
   return (
-    <main className="max-w-5xl mx-auto px-4 py-10 space-y-10">
+    <main className="max-w-5xl mx-auto px-4 py-8 space-y-10">
       <section className="text-center">
         <h1 className="text-4xl font-extrabold text-blue-800">CVision</h1>
-        <p className="text-lg text-gray-600 mt-2">
-          Smart Resume Analyzer powered by AI
-        </p>
-        <div className="absolute top-0 right-0 m-3">
+        <p className="text-lg text-gray-600 mt-2">{t.subtitle}</p>
+        <div className="absolute top-0 right-0 m-3 flex flex-col sm:flex-row gap-2">
           <ModeToggle />
+          <LanguageToggle />
         </div>
       </section>
 

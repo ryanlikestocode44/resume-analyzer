@@ -3,16 +3,19 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import AnalysisPage from "./components/AnalysisPage";
 import { ThemeProvider } from "@/components/provider/theme-provider";
+import { LanguageProvider } from "@/components/provider/language-provider";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/result" element={<AnalysisPage />} />{" "}
-        </Routes>
-      </Router>
+      <LanguageProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/result" element={<AnalysisPage />} />{" "}
+          </Routes>
+        </Router>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }
