@@ -6,6 +6,7 @@ import ResumeScoring from "@/components/ResumeScoring";
 import SkillRecommendation from "@/components/SkillRecommendation";
 import VideoSection from "@/components/VideoSection";
 import AnalysisFooter from "@/components/AnalysisFooter";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 interface ResumeData {
   resume_score?: number;
@@ -34,6 +35,9 @@ const Home: React.FC = () => {
         <p className="text-lg text-gray-600 mt-2">
           Smart Resume Analyzer powered by AI
         </p>
+        <div className="absolute top-0 right-0 m-3">
+          <ModeToggle />
+        </div>
       </section>
 
       <section>

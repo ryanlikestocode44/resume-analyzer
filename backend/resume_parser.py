@@ -4,7 +4,6 @@ import pdfplumber
 import pandas as pd
 from datetime import datetime
 from dateutil import parser as date_parser
-from collections import Counter
 from nltk import sent_tokenize
 from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline, logging
 from tqdm import tqdm
