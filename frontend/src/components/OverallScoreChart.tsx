@@ -2,6 +2,7 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { useLanguage } from "@/hooks/useLanguage";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -10,6 +11,8 @@ interface OverallScoreChartProps {
 }
 
 const OverallScoreChart: React.FC<OverallScoreChartProps> = ({ score }) => {
+  const { t } = useLanguage();
+
   const data = {
     labels: ["Score", "Sisa"],
     datasets: [
@@ -40,7 +43,7 @@ const OverallScoreChart: React.FC<OverallScoreChartProps> = ({ score }) => {
       <Doughnut data={data} options={options as any} />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-2xl font-bold text-green-600">{score}</span>
-        <span className="text-xs text-gray-500">of 100</span>
+        <span className="text-xs text-gray-500">{t.comparison} 100</span>
       </div>
     </div>
   );

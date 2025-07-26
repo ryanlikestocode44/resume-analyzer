@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
+import { Button } from "@/components/ui/button";
 
 interface DetectedSkillsSectionProps {
   skills: string[];
@@ -22,9 +24,11 @@ const DetectedSkillsSection: React.FC<DetectedSkillsSectionProps> = ({
     setSkillList(skillList.filter((skill) => skill !== skillToRemove));
   };
 
+  const { t } = useLanguage();
+
   return (
     <section id="detected-skills" className="mb-12">
-      <h2 className="text-2xl font-bold mb-4">Skills yang Terdeteksi</h2>
+      <h2 className="text-2xl font-bold mb-4">{t.detected_skills}</h2>
 
       <div className="flex flex-wrap gap-2 mb-4">
         {skillList.length > 0 ? (
@@ -45,7 +49,7 @@ const DetectedSkillsSection: React.FC<DetectedSkillsSectionProps> = ({
           ))
         ) : (
           <p className="text-sm text-muted-foreground">
-            Tidak ada skills terdeteksi.
+            {t.no_skills_detected}.
           </p>
         )}
       </div>
@@ -56,15 +60,15 @@ const DetectedSkillsSection: React.FC<DetectedSkillsSectionProps> = ({
           value={newSkill}
           onChange={(e) => setNewSkill(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddSkill()}
-          placeholder="Tambahkan skill baru"
+          placeholder={t.add_other_skill}
           className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm w-64 bg-white dark:bg-slate-800 text-black dark:text-white"
         />
-        <button
+        <Button
           onClick={handleAddSkill}
           className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
         >
-          Tambah
-        </button>
+          {t.add_skill_btn}
+        </Button>
       </div>
     </section>
   );

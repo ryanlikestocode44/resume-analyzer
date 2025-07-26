@@ -1,5 +1,6 @@
 // src/components/ResumePreview.tsx
 import React, { useState, useEffect } from "react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface ResumePreviewProps {
   file: File | null;
@@ -7,6 +8,8 @@ interface ResumePreviewProps {
 
 const ResumePreview: React.FC<ResumePreviewProps> = ({ file }) => {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
+
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (file) {
@@ -26,7 +29,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ file }) => {
   if (!fileUrl) {
     return (
       <div className="w-full h-full flex items-center justify-center text-sm text-gray-500">
-        Loading preview...
+        {t.resume_preview_loading}
       </div>
     );
   }

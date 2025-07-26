@@ -1,6 +1,7 @@
 // src/components/PersonalInfoSection.tsx
 import React from "react";
 import { capitalizeWords } from "@/lib/utils"; // atau wherever kamu taruh file-nya
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface PersonalInfoProps {
   name?: string;
@@ -19,24 +20,26 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
   github,
   pages,
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div id="personal-info" className="mb-8">
-      <h2 className="text-2xl font-bold mb-4">Data Personal</h2>
+      <h2 className="text-2xl font-bold mb-4">{t.personal_info}</h2>
       <ul className="space-y-2 text-sm">
         {name && (
           <li>
-            <strong>Nama:</strong> {capitalizeWords(name)}
+            <strong>{t.personal_info_name}:</strong> {capitalizeWords(name)}
           </li>
         )}
 
         {email && (
           <li>
-            <strong>Email:</strong> {email}
+            <strong>{t.personal_info_email}:</strong> {email}
           </li>
         )}
         {phone && (
           <li>
-            <strong>Nomor Telepon:</strong> {phone}
+            <strong>{t.personal_info_phone}:</strong> {phone}
           </li>
         )}
         {linkedin && (
@@ -67,7 +70,7 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
         )}
         {pages !== undefined && (
           <li>
-            <strong>Jumlah Halaman Resume:</strong> {pages}
+            <strong>{t.personal_info_pages}:</strong> {pages}
           </li>
         )}
       </ul>

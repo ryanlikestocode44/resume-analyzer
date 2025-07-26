@@ -1,5 +1,6 @@
 import React from "react";
 import { BookOpenIcon, ExternalLinkIcon } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface Course {
   title: string;
@@ -15,15 +16,15 @@ const RecommendedCoursesSection: React.FC<RecommendedCoursesSectionProps> = ({
 }) => {
   if (!courses || courses.length === 0) return null;
 
+  const { t } = useLanguage();
+
   return (
     <section id="recommended-courses" className="mb-12">
       <h2 className="text-2xl font-bold mb-4 text-slate-800 dark:text-slate-100">
-        Kursus yang Disarankan
+        {t.recommended_courses_title}
       </h2>
       <p className="mb-4 text-slate-600 dark:text-slate-300">
-        Berikut ini adalah daftar kursus online yang direkomendasikan yang dapat
-        dijadikan pertimbangan untuk meningkatkan skill Anda pada bidang yang
-        sesuai dengan resume Anda.
+        {t.recommended_courses_description}
       </p>
       <ul className="space-y-3">
         {courses.map((course, idx) => (

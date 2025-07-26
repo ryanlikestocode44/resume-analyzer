@@ -12,6 +12,9 @@ import RecommendedSkillsSection from "./RecommendedSkillsSection";
 import RecommendedCoursesSection from "./RecommendedCoursesSection";
 import VideoSection from "./VideoSection";
 import AnalysisFooter from "./AnalysisFooter";
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import { useLanguage } from "@/hooks/useLanguage";
+import LanguageToggle from "@/components/LanguageToggle";
 
 const AnalysisPage: React.FC = () => {
   const [resumeData, setResumeData] = useState<any>(null);
@@ -19,51 +22,53 @@ const AnalysisPage: React.FC = () => {
   const [showModal, setShowModal] = useState(true);
   const [activeSection, setActiveSection] = useState<string>("personal-info");
 
+  const { t } = useLanguage();
+
   const sections = [
     {
       id: "personal-info",
-      label: "Data Personal Kandidat",
+      label: t.personal_info,
     },
     {
       id: "detected-skills",
-      label: "Skills yang Terdeteksi",
+      label: t.detected_skills,
     },
     {
       id: "field-suggestion",
-      label: "Bidang Pekerjaan Disarankan",
+      label: t.field_suggestion,
     },
     {
       id: "content-check",
-      label: "Check Konten Resume",
+      label: t.content_check,
       children: [
-        { id: "education-section", label: "Educations" },
-        { id: "projects-section", label: "Projects" },
-        { id: "experiences-section", label: "Experiences" },
+        { id: "education-section", label: t.education_section },
+        { id: "projects-section", label: t.projects_section },
+        { id: "experiences-section", label: t.experiences_section },
       ],
     },
     {
       id: "resume-score",
-      label: "Score Resume",
+      label: t.resume_score,
       children: [
-        { id: "content-score", label: "Score Konten Resume" },
-        { id: "experience-score", label: "Score Pengalaman" },
+        { id: "content-score", label: t.content_score },
+        { id: "experience-score", label: t.experience_score },
       ],
     },
     {
       id: "recommended-skills",
-      label: "Skills yang Direkomendasikan",
+      label: t.recommended_skills,
     },
     {
       id: "recommended-courses",
-      label: "Kursus yang Disarankan",
+      label: t.recommended_courses,
     },
     {
       id: "resume-tutorial",
-      label: "Video Membuat Resume",
+      label: t.resume_tutorial,
     },
     {
       id: "interview-tutorial",
-      label: "Video Interview Kerja",
+      label: t.interview_tutorial,
     },
   ];
 
@@ -129,12 +134,12 @@ const AnalysisPage: React.FC = () => {
       <aside className="w-64 bg-white dark:bg-slate-800 shadow-md border-r sticky top-0 h-screen overflow-y-auto p-6">
         {/* Sidebar Score Keseluruhan */}
         <div className="mb-6">
-          <h2 className="text-lg font-bold mb-2">Score Keseluruhan</h2>
+          <h2 className="text-lg font-bold mb-2">{t.overall_score}</h2>
           <OverallScoreChart score={overallScore} />
         </div>
 
         <nav className="space-y-2 text-sm">
-          <p className="font-semibold mb-2">Navigasi Analisis</p>
+          <p className="font-semibold mb-2">{t.analysis_navigation}</p>
           <ul className="space-y-1 text-slate-700 dark:text-slate-200">
             {sections.map((sec) => (
               <li key={sec.id}>
@@ -193,6 +198,10 @@ const AnalysisPage: React.FC = () => {
             pages={resumeData.no_of_pages}
           />
         </section>
+        <div className="absolute top-0 right-0 m-3 flex flex-col sm:flex-row gap-2">
+          <ModeToggle />
+          <LanguageToggle />
+        </div>
         <section id="detected-skills" className="mb-12">
           <DetectedSkillsSection skills={resumeData.skills || []} />
         </section>
@@ -253,16 +262,15 @@ const AnalysisPage: React.FC = () => {
             </button>
 
             <h2 className="text-xl font-bold mb-4 text-center">
-              Skor Resume Anda:{" "}
+              {t.your_resume_score}:{" "}
               <span className="text-green-600">{overallScore}/100</span>
             </h2>
             <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 text-center">
-              Skor ini merupakan gabungan dari kelengkapan konten resume Anda
-              dan kualitas pengalaman kerja yang tertera.
+              {t.resume_score_description}
             </p>
             <div className="text-center">
               <Button onClick={() => setShowModal(false)}>
-                Lihat Selengkapnya
+                {t.see_more_details}
               </Button>
             </div>
           </div>

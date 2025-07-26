@@ -1,5 +1,6 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface RecommendedSkillsSectionProps {
   skills: string[];
@@ -10,14 +11,15 @@ const RecommendedSkillsSection: React.FC<RecommendedSkillsSectionProps> = ({
 }) => {
   if (!skills || skills.length === 0) return null;
 
+  const { t } = useLanguage();
+
   return (
     <section id="recommended-skills" className="mb-12">
       <h2 className="text-2xl font-bold mb-4 text-slate-800 dark:text-slate-100">
-        Skills yang Direkomendasikan
+        {t.recommended_skills_title}
       </h2>
       <p className="mb-4 text-slate-600 dark:text-slate-300">
-        Berdasarkan resume Anda, berikut adalah beberapa skill yang disarankan
-        untuk dipelajari agar meningkatkan peluang di bidang yang sesuai.
+        {t.recommended_skills_description}
       </p>
       <div className="flex flex-wrap gap-2">
         {skills.map((skill) => (
