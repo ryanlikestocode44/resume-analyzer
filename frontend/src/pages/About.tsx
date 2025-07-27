@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import LanguageToggle from "@/components/LanguageToggle";
 import { ArrowLeft } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const usageSteps = [
   {
@@ -28,66 +29,69 @@ const usageSteps = [
 ];
 
 const About = () => {
+  const { t } = useLanguage();
+
   return (
-    <div className="relative max-w-4xl mx-auto px-4 py-10 flex flex-col min-h-screen space-y-10">
-      {/* Theme + Language Toggle */}
-      <div className="absolute top-4 right-4 flex flex-col sm:flex-row gap-2 z-50">
+    <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col min-h-screen relative">
+      {/* Theme & Language Switch */}
+      <div className="absolute top-0 right-0 m-3 flex flex-col sm:flex-row gap-2 z-50">
         <ModeToggle />
         <LanguageToggle />
       </div>
 
-      {/* Link Back */}
-      <div className="mb-4">
+      {/* Back to Home */}
+      <div className="mb-6">
         <Link
           to="/"
-          className="text-blue-600 hover:underline flex items-center gap-2"
+          className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-2"
         >
           <ArrowLeft size={18} />
           <span>Kembali ke Halaman Utama</span>
         </Link>
       </div>
 
-      {/* Section 1: About CVision */}
-      <section>
-        <h1 className="text-3xl font-bold text-blue-800 mb-4">
-          Tentang CVision
+      {/* About Section */}
+      <section className="mb-10">
+        <h1 className="text-3xl font-bold text-blue-800 dark:text-blue-300 mb-4">
+          About CVision
         </h1>
-        <p className="text-gray-700 leading-relaxed mb-3">
-          <strong>CVision</strong> adalah platform analisis resume berbasis web
-          yang dibangun dengan React, Flask, dan Natural Language Processing
-          (NLP).
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+          <strong>CVision</strong> adalah platform analisis resume cerdas yang
+          dibangun dengan teknologi web modern seperti React, Flask, dan NLP.
+          CVision membantu pencari kerja meningkatkan resume mereka melalui
+          rekomendasi skill, penilaian, dan sumber video relevan.
         </p>
-        <p className="text-gray-700 leading-relaxed mb-3">
-          CVision membantu pencari kerja dalam meningkatkan resume mereka
-          melalui rekomendasi skill, penilaian konten, dan saran video
-          pembelajaran yang relevan.
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+          Platform ini memanfaatkan pemrosesan bahasa alami untuk mengekstrak
+          informasi dari resume PDF yang diunggah dan memberikan insight
+          berdasarkan standar serta tren industri.
         </p>
-        <p className="text-gray-700 leading-relaxed">
-          Dibuat dengan ❤️ untuk mahasiswa, fresh graduate, dan profesional yang
-          ingin meningkatkan peluang karier mereka.
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+          Dikembangkan dengan ❤️ untuk mahasiswa, fresh graduate, dan
+          profesional yang ingin meningkatkan peluang karier.
         </p>
       </section>
 
-      {/* Section 2: How to Use */}
-      <section>
-        <h2 className="text-2xl font-semibold text-blue-700 text-center mb-6">
+      {/* Usage Steps */}
+      <section className="mb-12">
+        <h2 className="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-6 text-center">
           Cara Menggunakan CVision
         </h2>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-10">
           {usageSteps.map((step, idx) => (
             <div
               key={idx}
-              className={`flex items-center ${
-                step.align === "right" ? "flex-row-reverse" : "flex-row"
-              } gap-6`}
+              className={`flex flex-col md:flex-row ${
+                step.align === "right" ? "md:flex-row-reverse" : ""
+              } items-center gap-6`}
             >
               <img
                 src={step.img}
                 alt={`Langkah ${idx + 1}`}
-                className="w-32 h-32 object-cover rounded shadow"
+                className="rounded shadow-md w-32 h-32 object-cover"
               />
-              <div className="text-gray-800 text-base">
-                <span className="font-bold">Langkah {idx + 1}:</span>{" "}
+              <div className="text-gray-700 dark:text-gray-200 text-base">
+                <span className="font-semibold mr-2">Langkah {idx + 1}:</span>
                 {step.desc}
               </div>
             </div>
@@ -96,7 +100,7 @@ const About = () => {
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto text-center text-gray-500 py-6 border-t">
+      <footer className="mt-auto text-center text-gray-500 dark:text-gray-400 py-4 border-t border-gray-200 dark:border-gray-700">
         &copy; {new Date().getFullYear()} CVision. All rights reserved.
       </footer>
     </div>
