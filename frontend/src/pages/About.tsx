@@ -7,22 +7,22 @@ import { useLanguage } from "@/hooks/useLanguage";
 
 const usageSteps = [
   {
-    img: "/images/step1-upload.png",
+    img_url: "https://i.ibb.co/G3fzNL1Z/tutor1.jpg",
     desc: "Unggah resume PDF Anda ke platform CVision.",
     align: "left",
   },
   {
-    img: "/images/step2-analysis.png",
+    img_url: "https://i.ibb.co/LhHGfDv6/tutor2.jpg",
     desc: "CVision menganalisis resume Anda secara otomatis.",
     align: "right",
   },
   {
-    img: "/images/step3-recommend.png",
+    img_url: "https://i.ibb.co/RpFQD0PN/tutor3.jpg",
     desc: "Dapatkan rekomendasi skill dan penilaian resume.",
     align: "left",
   },
   {
-    img: "/images/step4-video.png",
+    img_url: "https://i.ibb.co/kgxMQXj6/tutor4.jpg",
     desc: "Tonton video pembelajaran yang relevan untuk meningkatkan skill.",
     align: "right",
   },
@@ -56,19 +56,20 @@ const About = () => {
           About CVision
         </h1>
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-          <strong>CVision</strong> adalah platform analisis resume cerdas yang
-          dibangun dengan teknologi web modern seperti React, Flask, dan NLP.
-          CVision membantu pencari kerja meningkatkan resume mereka melalui
+          <strong>CVision</strong> adalah aplikasi web analisis resume cerdas
+          yang dibangun dengan teknologi web modern seperti React, Flask, dan
+          NLP. CVision membantu melakukan ekstraksi informasi resume melalui
           rekomendasi skill, penilaian, dan sumber video relevan.
         </p>
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-          Platform ini memanfaatkan pemrosesan bahasa alami untuk mengekstrak
-          informasi dari resume PDF yang diunggah dan memberikan insight
-          berdasarkan standar serta tren industri.
+          Aplikasi ini memanfaatkan pemrosesan bahasa alami dan rule-based
+          matching untuk mengekstrak informasi dari resume PDF yang diunggah dan
+          memberikan insight berdasarkan standar serta tren industri.
         </p>
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-          Dikembangkan dengan ❤️ untuk mahasiswa, fresh graduate, dan
-          profesional yang ingin meningkatkan peluang karier.
+          Dikembangkan menyelesaikan tugas akhir dan sebagai alat untuk
+          mahasiswa, fresh graduate, dan profesional yang ingin melihat dan
+          mengevaluasi resume-nya berdasarkan ekstraksi informasi dari CVision.
         </p>
       </section>
 
@@ -86,7 +87,7 @@ const About = () => {
               } items-center gap-6`}
             >
               <img
-                src={step.img}
+                src={step.img_url}
                 alt={`Langkah ${idx + 1}`}
                 className="rounded shadow-md w-32 h-32 object-cover"
               />

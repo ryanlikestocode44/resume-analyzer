@@ -15,6 +15,7 @@ import AnalysisFooter from "./AnalysisFooter";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { useLanguage } from "@/hooks/useLanguage";
 import LanguageToggle from "@/components/LanguageToggle";
+import ResumeNotFound from "./ResumeNotFound";
 
 const AnalysisPage: React.FC = () => {
   const [resumeData, setResumeData] = useState<any>(null);
@@ -120,7 +121,12 @@ const AnalysisPage: React.FC = () => {
     };
   }, []);
 
-  if (!resumeData) return <div className="p-6">Resume belum tersedia.</div>;
+  if (!resumeData)
+    return (
+      <>
+        <ResumeNotFound />
+      </>
+    );
 
   const contentScore = resumeData.content_score || 75;
   const experienceScore = resumeData.experience_score || 20;
