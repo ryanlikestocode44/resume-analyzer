@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import AnalysisPage from "./components/AnalysisPage";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { LanguageProvider } from "@/components/provider/language-provider";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route path="/result" element={<AnalysisPage />} />{" "}
           </Routes>
         </Router>

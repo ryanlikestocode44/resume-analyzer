@@ -188,6 +188,11 @@ const AnalysisPage: React.FC = () => {
 
       {/* Konten Tengah */}
       <main className="flex-1 px-3 py-8 overflow-auto lg:mr-[33.33%]">
+        <div className="absolute top-0 sm:right-0 lg:right-2/6 m-3 flex flex-col sm:flex-row gap-2 z-50">
+          <ModeToggle />
+          <LanguageToggle />
+        </div>
+
         <section id="personal-info" className="mb-12">
           <PersonalInfoSection
             name={resumeData.name}
@@ -198,10 +203,6 @@ const AnalysisPage: React.FC = () => {
             pages={resumeData.no_of_pages}
           />
         </section>
-        <div className="absolute top-0 right-0 m-3 flex flex-col sm:flex-row gap-2">
-          <ModeToggle />
-          <LanguageToggle />
-        </div>
         <section id="detected-skills" className="mb-12">
           <DetectedSkillsSection skills={resumeData.skills || []} />
         </section>

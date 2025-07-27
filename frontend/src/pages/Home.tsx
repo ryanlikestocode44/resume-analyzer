@@ -9,6 +9,7 @@ import AnalysisFooter from "@/components/AnalysisFooter";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { useLanguage } from "@/hooks/useLanguage";
 import LanguageToggle from "@/components/LanguageToggle";
+import { Link } from "react-router-dom";
 
 interface ResumeData {
   resume_score?: number;
@@ -40,6 +41,12 @@ const Home: React.FC = () => {
         <div className="absolute top-0 right-0 m-3 flex flex-col sm:flex-row gap-2">
           <ModeToggle />
           <LanguageToggle />
+          <Link
+            to="/about"
+            className="text-sm px-3 py-1 rounded-md text-blue-700 dark:text-blue-300 hover:underline"
+          >
+            Tentang Website
+          </Link>
         </div>
       </section>
 
