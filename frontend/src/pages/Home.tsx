@@ -45,7 +45,7 @@ const Home: React.FC = () => {
             to="/about"
             className="text-sm px-3 py-1 rounded-md text-blue-700 dark:text-blue-300 hover:underline"
           >
-            Tentang Website
+            {t.about_link}
           </Link>
         </div>
       </section>

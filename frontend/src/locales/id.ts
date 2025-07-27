@@ -1,16 +1,24 @@
 const id = {
   //-------------------------HALAMAN--------------------------
-  // Terjemahan untuk halaman ResumeUploader
-  title: "CVision",
-  subtitle: "Analisis Resume Pintar berbasis AI",
-  upload: "Unggah Resume (PDF)",
-  upload_failed: "Gagal mengunggah resume.",
-  upload_error: "Terjadi kesalahan saat mengunggah resume.",
-  uploading: "Mengunggah...",
-  upload_btn: "Unggah Resume",
-  analyzing: "Menganalisis resume Anda...",
-  choose_file: "Silakan pilih file resume terlebih dahulu.",
-  pdf_only: "Hanya file PDF yang diperbolehkan.",
+  // Terjemahan untuk halaman utama
+  about_link: "Tentang Website",
+
+  // Terjemahan untuk halaman About
+  home_link: "Kembali ke Halaman Utama",
+  about_title: "About CVision",
+  about_description:
+    "adalah aplikasi web analisis resume cerdas yang dibangun dengan teknologi web modern seperti React, Flask, dan NLP. CVision membantu melakukan ekstraksi informasi resume melalui rekomendasi skill, penilaian, dan sumber video relevan.",
+  about_usage:
+    "Aplikasi ini memanfaatkan pemrosesan bahasa alami dan rule-based matching untuk mengekstrak informasi dari resume PDF yang diunggah dan memberikan insight berdasarkan standar serta tren industri.",
+  about_developed_for:
+    "Dirancang untuk menyelesaikan tugas akhir dan sebagai alat untuk mahasiswa, fresh graduate, dan profesional yang ingin melihat dan mengevaluasi resume berdasarkan ekstraksi informasi dari CVision.",
+  about_steps_title: "Cara Menggunakan CVision",
+  about_step: "Langkah",
+  usage_step_1: "Unggah resume Anda dalam format PDF.",
+  usage_step_2: "CVision akan menganalisis resume Anda secara otomatis.",
+  usage_step_3: "Dapatkan rekomendasi skill dan penilaian resume Anda.",
+  usage_step_4:
+    "Tonton video pembelajaran yang relevan untuk meningkatkan skill Anda.",
 
   // Terjemahan untuk halaman AnalysisPage
   overall_score: "Skor Keseluruhan",
@@ -19,9 +27,6 @@ const id = {
   resume_score_description:
     "Skor ini didasarkan pada analisis otomatis dari konten resume Anda. Skor ini mencerminkan seberapa baik resume Anda memenuhi kriteria yang umum digunakan dalam penilaian resume.",
   see_more_details: "Lihat Detail Lebih Lanjut",
-
-  // Terjemahan untuk OverallScoreChart
-  comparison: "dari",
 
   //----------------------LABEL NAVIGASI-----------------------
   // Terjemahan untuk label navigasi sidebar
@@ -41,6 +46,21 @@ const id = {
   interview_tutorial: "Video Interview Kerja",
 
   // ---------------------KOMPONEN----------------------
+  // Terjemahan untuk halaman ResumeUploader
+  title: "CVision",
+  subtitle: "Analisis Resume Pintar berbasis AI",
+  upload: "Unggah Resume (PDF)",
+  upload_failed: "Gagal mengunggah resume.",
+  upload_error: "Terjadi kesalahan saat mengunggah resume.",
+  uploading: "Mengunggah...",
+  upload_btn: "Unggah Resume",
+  analyzing: "Menganalisis resume Anda...",
+  choose_file: "Silakan pilih file resume terlebih dahulu.",
+  pdf_only: "Hanya file PDF yang diperbolehkan.",
+
+  // Terjemahan untuk OverallScoreChart
+  comparison: "dari",
+
   // Terjemahan untuk komponen PersonalInfoSection
   personal_info_title: "Data Pribadi",
   personal_info_name: "Nama",
@@ -102,6 +122,12 @@ const id = {
     "Dapatkan wawasan penting tentang cara menulis resume yang efektif dan menghadapi interview kerja melalui video singkat di bawah ini.",
   resume_tutorial_tip: "Tips Menulis Resume",
   interview_tutorial_tip: "Tips Interview Kerja",
+
+  // Terjemahan untuk komponen ResumeNotFound
+  resume_not_found_title: "Resume Tidak Ditemukan",
+  resume_not_found_description:
+    "Silakan unggah resume Anda terlebih dahulu melalui halaman utama untuk melanjutkan proses analisis.",
+  resume_not_found_button: "Kembali ke Halaman Utama",
 };
 
 export default id;

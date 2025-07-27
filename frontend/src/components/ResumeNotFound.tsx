@@ -1,9 +1,12 @@
-import React from "react"
-import { Button } from "@/components/ui/button"
-import { useNavigate } from "react-router-dom"
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const ResumeNotFound: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const { t } = useLanguage();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900 px-4">
@@ -57,22 +60,21 @@ const ResumeNotFound: React.FC = () => {
 
         {/* Title */}
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          Resume Belum Ditemukan
+          {t.resume_not_found_title}
         </h2>
 
         {/* Deskripsi */}
         <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-xl mb-6">
-          Silakan unggah resume Anda terlebih dahulu melalui halaman utama untuk
-          melanjutkan proses analisis.
+          {t.resume_not_found_desc}
         </p>
 
         {/* Tombol Kembali */}
         <Button variant="default" onClick={() => navigate("/")}>
-          Kembali ke Halaman Utama
+          {t.resume_not_found_btn}
         </Button>
       </div>
     </div>
   );
-}
+};
 
-export default ResumeNotFound
+export default ResumeNotFound;

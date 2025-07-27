@@ -260,13 +260,13 @@ const AnalysisPage: React.FC = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
           <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-lg w-[90%] max-w-md relative">
-            <button
+            <Button
               onClick={() => setShowModal(false)}
               className="absolute top-2 right-2 text-slate-500 hover:text-red-500"
               aria-label="Tutup pop-up"
             >
               <XIcon className="w-5 h-5" />
-            </button>
+            </Button>
 
             <h2 className="text-xl font-bold mb-4 text-center">
               {t.your_resume_score}:{" "}

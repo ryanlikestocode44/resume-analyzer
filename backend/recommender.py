@@ -11,7 +11,7 @@ from courses import (
 from videos import resume_videos, interview_videos
 
 # === Load skills dari predefined CSV ===
-def load_predefined_skills(filepath="datasets/predefined_skills.csv"):
+def load_predefined_skills(filepath="cached/predefined_skills.csv"):
     skills = set()
     try:
         with open(filepath, "r", encoding="utf-8") as f:
@@ -21,7 +21,7 @@ def load_predefined_skills(filepath="datasets/predefined_skills.csv"):
                 if row and row[0].strip():
                     skills.add(row[0].strip().lower())
     except Exception as e:
-        print(f"Gagal memuat predefined skills: {e}")
+        print(f"Failed to load predefined skills dataset: {e}")
     return skills
 
 # === Load sekali saat import ===
